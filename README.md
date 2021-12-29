@@ -107,7 +107,7 @@ spec:
       restartPolicy: Always
       containers:
 			- name: grav
-				//-----------------//
+			//-----------------//
 			- name: grav-df-exporter
 				image: vasyakrg/df-exporter:0.1
 				imagePullPolicy: IfNotPresent
