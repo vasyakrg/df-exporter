@@ -2,9 +2,9 @@
 
 ## Monitoring disk size (mb) metrics for Prometheus format
 
-Exelent for longhorn pcv
+Exelent for longhorn pvc
 
-- port setting get from ENV: POTY (default: 8080)
+- port setting get from ENV: PORT (default: 8080)
 - path setting get from ENV: MYPATH (default: '\')
 - export metrics example:
 
