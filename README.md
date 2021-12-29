@@ -106,23 +106,23 @@ spec:
       terminationGracePeriodSeconds: 60
       restartPolicy: Always
       containers:
-			- name: grav
-			//-----------------//
-			- name: grav-df-exporter
-				image: vasyakrg/df-exporter:0.1
-				imagePullPolicy: IfNotPresent
-				ports:
-				- name: grav-exporter
-					containerPort: 9873
-					protocol: TCP
-				env:
-				- name: "MYPATH"
-					value: "/var/www/html"
-				- name: "PORT"
-					value: "9873"
-				volumeMounts:
-				- name: vol-grav
-					mountPath: /var/www/html
+      - name: grav
+      //-----------------//
+      - name: grav-df-exporter
+        image: vasyakrg/df-exporter:0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: grav-exporter
+          containerPort: 9873
+          protocol: TCP
+        env:
+        - name: "MYPATH"
+          value: "/var/www/html"
+        - name: "PORT"
+          value: "9873"
+        volumeMounts:
+        - name: vol-grav
+          mountPath: /var/www/html
       volumes:
         - name: vol-grav
           persistentVolumeClaim:
