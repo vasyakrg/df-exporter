@@ -27,57 +27,57 @@ df_exporter_disk_total_size 239362496
 - prometheus scrape
 
 ```bash
-      - job_name: "df-monitor"
-        honor_labels: true
-        scheme: http
+- job_name: "df-monitor"
+  honor_labels: true
+  scheme: http
 
-        kubernetes_sd_configs:
-          - role: endpoints
-        relabel_configs:
-          - target_label: cluster
-            replacement: mlm-hetzner-dev
-          - source_labels: [__meta_kubernetes_endpoints_name]
-            regex: (.*-df-exporter)
-            action: keep
-          - source_labels: [__address__, __meta_kubernetes_service_port]
-            action: replace
-            target_label: __address__
-            regex: 9873
-            replacement: $1:$2
-          # add service namespace as label to the scrapped metrics
-          - source_labels: [__meta_kubernetes_namespace]
-            separator: ;
-            regex: (.*)
-            target_label: namespace
-            replacement: $1
-            action: replace
-          # add service name as a label to the scrapped metrics
-          - source_labels: [__meta_kubernetes_service_name]
-            separator: ;
-            regex: (.*)
-            target_label: service
-            replacement: $1
-            action: replace
-          # add stats service's labels to the scrapped metrics
-          - action: labelmap
-            regex: __meta_kubernetes_service_label_(.+)
+  kubernetes_sd_configs:
+    - role: endpoints
+  relabel_configs:
+    - target_label: cluster
+      replacement: mlm-hetzner-dev
+    - source_labels: [__meta_kubernetes_endpoints_name]
+      regex: (.*-df-exporter)
+      action: keep
+    - source_labels: [__address__, __meta_kubernetes_service_port]
+      action: replace
+      target_label: __address__
+      regex: 9873
+      replacement: $1:$2
+    # add service namespace as label to the scrapped metrics
+    - source_labels: [__meta_kubernetes_namespace]
+      separator: ;
+      regex: (.*)
+      target_label: namespace
+      replacement: $1
+      action: replace
+    # add service name as a label to the scrapped metrics
+    - source_labels: [__meta_kubernetes_service_name]
+      separator: ;
+      regex: (.*)
+      target_label: service
+      replacement: $1
+      action: replace
+    # add stats service's labels to the scrapped metrics
+    - action: labelmap
+      regex: __meta_kubernetes_service_label_(.+)
 ```
 
 - alertmanager
 
 ```bash
-      - name: DF-monitor
-        rules:
-          - alert: Df-Monitor-Alert
-            annotations:
-              description:
-                The used storage of app {{$labels.app}} on NS {{$labels.namespace}} is at {{$value}}% capacity for
-                more than 5 minutes. Cluster={{$labels.cluster}}
-              summary: The used storage of disk is over 70% of the capacity.
-            expr: (df_exporter_disk_used_size / df_exporter_disk_total_size) * 100 > 70
-            for: 5m
-            labels:
-              severity: critical
+- name: DF-monitor
+  rules:
+    - alert: Df-Monitor-Alert
+      annotations:
+        description:
+          The used storage of app {{$labels.app}} on NS {{$labels.namespace}} is at {{$value}}% capacity for
+          more than 5 minutes. Cluster={{$labels.cluster}}
+        summary: The used storage of disk is over 70% of the capacity.
+      expr: (df_exporter_disk_used_size / df_exporter_disk_total_size) * 100 > 70
+      for: 5m
+      labels:
+        severity: critical
 ```
 
 - kubernetes deployment
