@@ -13,5 +13,6 @@ Master:
   stage: build
   script:
     - export DOCKER_BASEIMAGE=node:17
+    - export DOCKER_IMAGE_NAME=df-exporter
     - export DOCKER_IMAGE_TAG=$(cat VERSION)
     - chmod +x "${BUILD_SCRIPT}" && ./${BUILD_SCRIPT}
