@@ -1,0 +1,17 @@
+image: hub.bildme.ru/images/docker
+
+variables:
+  BUILD_SCRIPT: ci/build.sh
+  GIT_SUBMODULE_STRATEGY: none
+  DOCKER_TAG_AS_LATEST: 1
+  DOCKER_NO_BRANCH_TAG: 1
+
+stages:
+- build
+
+Master:
+  stage: build
+  script:
+    - export DOCKER_BASEIMAGE=node:16-slim
+    - export DOCKER_IMAGE_TAG=$(cat VERSION)
+    - chmod +x "${BUILD_SCRIPT}" && ./${BUILD_SCRIPT}
