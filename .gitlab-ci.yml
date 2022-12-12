@@ -12,6 +12,6 @@ stages:
 Master:
   stage: build
   script:
-    - export DOCKER_BASEIMAGE=node:17
+    - export DOCKER_BASEIMAGE=node:18.12.1-bullseye-slim
     - export DOCKER_IMAGE_TAG=$(cat VERSION)
     - chmod +x "${BUILD_SCRIPT}" && ./${BUILD_SCRIPT}
