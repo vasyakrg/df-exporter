@@ -1,4 +1,4 @@
-image: hub.bildme.ru/images/docker
+image: hub.realmanual.ru/images/docker
 
 variables:
   BUILD_SCRIPT: ci/build.sh
