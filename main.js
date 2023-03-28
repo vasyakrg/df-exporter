@@ -27,6 +27,16 @@ const diskUsedMetric = new client.Gauge({
 	help: 'Used disk size from path: ' + path,
 });
 
+const diskUsedPercent = new client.Gauge({
+	name: 'df_exporter_disk_used_pencent',
+	help: 'Used disk size with pencent from path: ' + path,
+});
+
+const diskFreePercent = new client.Gauge({
+	name: 'df_exporter_disk_free_pencent',
+	help: 'Free disk size with pencent from path: ' + path,
+});
+
 app.get('/metrics', async (req, res) => {
 	const diskData = disk.checkSync(path)
 
@@ -34,10 +44,15 @@ app.get('/metrics', async (req, res) => {
 	diskTotalMetric.set(diskData.total / 1024)
 	diskUsedMetric.set((diskData.total - diskData.free) / 1024)
 
+	diskUsedPercent.set(100 - (diskData.free / diskData.total * 100))
+	diskFreePercent.set(diskData.free / diskData.total * 100)
 
 	register.registerMetric(diskUsedMetric)
 	register.registerMetric(diskFreeMetric)
 	register.registerMetric(diskTotalMetric)
+
+	register.registerMetric(diskUsedPercent)
+	register.registerMetric(diskFreePercent)
 
 	res.setHeader('Content-Type', register.contentType);
 	res.send(await register.metrics());

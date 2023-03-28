@@ -20,6 +20,14 @@ df_exporter_disk_free_size 40284116
 # HELP df_exporter_disk_total_size Total disk size from path: /
 # TYPE df_exporter_disk_total_size gauge
 df_exporter_disk_total_size 239362496
+
+# HELP df_exporter_disk_used_pencent Used disk size with pencent from path: /
+# TYPE df_exporter_disk_used_pencent gauge
+df_exporter_disk_used_pencent 3.715749798508085
+
+# HELP df_exporter_disk_free_pencent Free disk size with pencent from path: /
+# TYPE df_exporter_disk_free_pencent gauge
+df_exporter_disk_free_pencent 96.17155564288939
 ```
 
 ## Example deploy
